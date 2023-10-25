@@ -1,5 +1,5 @@
 [package]
-name = "bubble_sort_i32"
+name = "bubble_sort_generic"
 version = "0.1.0"
 edition = "2021"
 

@@ -51,7 +51,23 @@ mod test {
     }
 }
 
-fn bubble_sort(list: &mut Vec<i32>) {
+// fn bubble_sort(list: &mut Vec<i32>) {
+//     let n = list.len();
+//     loop {
+//         let mut swapped = false;
+//         for i in 1..=n - 1 {
+//             if list[i - 1] > list[i] {
+//                 (list[i - 1], list[i]) = (list[i], list[i - 1]);
+//                 swapped = true;
+//             }
+//         }
+//         if !swapped {
+//             break;
+//         }
+//     }
+// }
+
+fn bubble_sort<T: std::cmp::PartialOrd + Copy>(list: &mut Vec<T>) {
     let n = list.len();
     loop {
         let mut swapped = false;
@@ -67,18 +83,18 @@ fn bubble_sort(list: &mut Vec<i32>) {
     }
 }
 
-fn functional_push(list: Vec<i32>, value: i32) -> Vec<i32> {
+fn functional_push<T: Clone>(list: Vec<T>, value: T) -> Vec<T> {
     let mut new_list = list.clone();
     new_list.push(value);
     new_list
 }
 
-fn push_smaller_then_larger_true_if_swapped(
-    list: Vec<i32>,
-    a: i32,
-    b: i32,
+fn push_smaller_then_larger_true_if_swapped<T: std::cmp::PartialOrd + Clone>(
+    list: Vec<T>,
+    a: T,
+    b: T,
     if_not_swapped: bool,
-) -> (Vec<i32>, bool) {
+) -> (Vec<T>, bool) {
     let (smaller, larger, swapped) = if a <= b {
         (a, b, if_not_swapped)
     } else {
@@ -90,16 +106,16 @@ fn push_smaller_then_larger_true_if_swapped(
     )
 }
 
-fn get_list_without_last_and_last(list: Vec<i32>) -> (Vec<i32>, i32) {
+fn get_list_without_last_and_last<T: Copy>(list: Vec<T>) -> (Vec<T>, T) {
     let last = list[list.len() - 1];
     let list_len = list.len();
-    let list_without_last: Vec<i32> = list.into_iter().take(list_len - 1).collect();
+    let list_without_last: Vec<T> = list.into_iter().take(list_len - 1).collect();
     (list_without_last, last)
 
     // (vec![], 0)
 }
 
-fn bubble_sort_inner_loop(list: Vec<i32>) -> (Vec<i32>, bool) {
+fn bubble_sort_inner_loop<T: std::cmp::PartialOrd + Copy>(list: Vec<T>) -> (Vec<T>, bool) {
     let res = list
         .into_iter()
         .map(|x| (vec![x], false)) // second tuple element is "has_swapped" info
@@ -120,8 +136,8 @@ fn bubble_sort_inner_loop(list: Vec<i32>) -> (Vec<i32>, bool) {
     res
 }
 
-fn bubble_sort3(list: Vec<i32>) -> Vec<i32> {
-    fn bubble_sort3_rec(list: Vec<i32>) -> Vec<i32> {
+fn bubble_sort3<T: std::cmp::PartialOrd + Copy>(list: Vec<T>) -> Vec<T> {
+    fn bubble_sort3_rec<T: std::cmp::PartialOrd + Copy>(list: Vec<T>) -> Vec<T> {
         let (new_list, has_swapped) = bubble_sort_inner_loop(list);
         if !has_swapped {
             return new_list;
@@ -131,8 +147,11 @@ fn bubble_sort3(list: Vec<i32>) -> Vec<i32> {
     bubble_sort3_rec(list)
 }
 
-fn bubble_sort2(list: Vec<i32>) -> Vec<i32> {
-    fn bubble_sort2_rec(list: Vec<i32>, has_swapped: bool) -> Vec<i32> {
+fn bubble_sort2<T: std::cmp::PartialOrd + Clone + Copy>(list: Vec<T>) -> Vec<T> {
+    fn bubble_sort2_rec<T: std::cmp::PartialOrd + Clone + Copy>(
+        list: Vec<T>,
+        has_swapped: bool,
+    ) -> Vec<T> {
         if !has_swapped {
             return list;
         }

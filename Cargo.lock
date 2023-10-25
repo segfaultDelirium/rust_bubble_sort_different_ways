@@ -3,5 +3,5 @@
 version = 3
 
 [[package]]
-name = "bubble_sort_i32"
+name = "bubble_sort_generic"
 version = "0.1.0"
